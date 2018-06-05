@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.samples</groupId>
 	<artifactId>spring-petclinic</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1</version>
 
 	<name>petclinic</name>
-	<packaging>war</packaging>
+	
 
 	<properties>
 
@@ -380,16 +380,6 @@
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
-			
-			
-			<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-surefire-plugin</artifactId>
-    <version>2.19.1</version>
-    <configuration>
-        <testFailureIgnore>true</testFailureIgnore>
-    </configuration>
-</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -400,62 +390,6 @@
 					</includes>
 				</configuration>
 			</plugin>
-         <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.1</version>
-				<executions>
-					<execution>
-						<id>id.pre-site</id>
-						<phase>pre-site</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<echo>in pre-site phase</echo>
-							</tasks>
-						</configuration>
-					</execution>
-					<execution>
-						<id>id.site</id>
-						<phase>site</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<echo>in site phase</echo>
-							</tasks>
-						</configuration>
-					</execution>
-					<execution>
-						<id>id.post-site</id>
-						<phase>post-site</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<echo>in post-site phase</echo>
-							</tasks>
-						</configuration>
-					</execution>
-					<execution>
-						<id>id.site-deploy</id>
-						<phase>site-deploy</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<echo>in site-deploy phase</echo>
-							</tasks>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -464,6 +398,24 @@
 					<warName>petclinic</warName>
 				</configuration>
 			</plugin>
+			<plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>2.2-beta-5</version>
+            <configuration>
+                <descriptors>
+                    <descriptor>src/main/assembly/zip.xml</descriptor>
+                </descriptors>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                    <phase>package</phase> <!-- append to the packaging phase. -->
+                    <goals>
+                        <goal>single</goal> <!-- goals == mojos -->
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -475,8 +427,7 @@
 					<sourceIncludes>
 						<sourceInclude>**/*.*</sourceInclude>
 					</sourceIncludes>
-					<additional
-						    commands>
+					<additionalBuildcommands>
 						<buildCommand>
 							<name>org.springframework.ide.eclipse.core.springbuilder</name>
 						</buildCommand>
